@@ -663,8 +663,6 @@ vendor/bin/dpmQmiMgr|fd59518b55d5cc9ec677a7da9f0d4aad3f03d98a
 vendor/etc/init/dpmQmiMgr.rc|67569302d3a8828a9118c835e5b69c51b0c8ac68
 vendor/lib64/com.qualcomm.qti.dpm.api@1.0.so|a7d6305b0b9a3b80e8006b90990cd9112090fa05
 vendor/lib64/libdpmqmihal.so|903e732361dddd2dffdd3e9facf76180096710c8
-vendor/lib/com.qualcomm.qti.dpm.api@1.0.so|09906c68dc0b5bf896766336079cd1e1a87559a6
-vendor/lib/libdpmqmihal.so|e68d0fa8c0de8b031b475c31080c607460d60719
 
 # DRM - Qualcomm Trusted Execution Enviornment - from repo1
 vendor/bin/qseecomd|d79a4cb59568c96051538d34bce08030ff74460e
