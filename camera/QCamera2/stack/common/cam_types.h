@@ -1325,6 +1325,7 @@ typedef struct {
 typedef struct {
     uint32_t scale;
     float diopter;
+    volatile char bq_reserved[4];
 } cam_focus_pos_info_t ;
 
 typedef struct {
@@ -1864,6 +1865,8 @@ typedef enum {
     CAM_INTF_PARM_BESTSHOT_MODE,
     CAM_INTF_PARM_DIS_ENABLE,
     CAM_INTF_PARM_LED_MODE,
+    BQ_RESERVED_1,
+    BQ_RESERVED_2,
     CAM_INTF_META_HISTOGRAM,
     CAM_INTF_META_FACE_DETECTION,
     /* Whether optical image stabilization is enabled. */

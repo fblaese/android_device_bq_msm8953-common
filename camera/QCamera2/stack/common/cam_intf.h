@@ -902,6 +902,8 @@ typedef struct {
     INCLUDE(CAM_INTF_PARM_BESTSHOT_MODE,                uint32_t,                    1);
     INCLUDE(CAM_INTF_PARM_DIS_ENABLE,                   int32_t,                     1);
     INCLUDE(CAM_INTF_PARM_LED_MODE,                     int32_t,                     1);
+    INCLUDE(BQ_RESERVED_1,                              int32_t,                     1);
+    INCLUDE(BQ_RESERVED_2,                              int32_t,                     1);
     INCLUDE(CAM_INTF_META_LED_MODE_OVERRIDE,            uint32_t,                    1);
 
     /* dual camera specific params */
