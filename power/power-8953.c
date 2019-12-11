@@ -52,6 +52,12 @@
 
 #define NUM_PERF_MODES  3
 
+#define SCHED_LIB_MASK_FORCE_PATH "/proc/sys/kernel/sched_lib_mask_force"
+#define SCHED_LIB_MASK_FORCE_ENABLE  "0xf0"
+#define SCHED_LIB_MASK_FORCE_DISABLE "0x00"
+#define SCHED_LIB_NAME_PATH "/proc/sys/kernel/sched_lib_name"
+#define SCHED_LIB_NAME "libunity.so"
+
 const int kMaxLaunchDuration = 5000; /* ms */
 const int kMaxInteractiveDuration = 5000; /* ms */
 const int kMinInteractiveDuration = 500; /* ms */
@@ -88,6 +94,26 @@ int get_number_of_profiles()
 }
 #endif
 
+static void set_sched_lib_optimization(bool enable) {
+    if (enable) {
+        if (sysfs_write(SCHED_LIB_NAME_PATH, SCHED_LIB_NAME)) {
+            return;
+        }
+
+        if (sysfs_write(SCHED_LIB_MASK_FORCE_PATH, SCHED_LIB_MASK_FORCE_ENABLE)) {
+            return;
+        }
+    } else {
+        if (sysfs_write(SCHED_LIB_MASK_FORCE_PATH, SCHED_LIB_MASK_FORCE_DISABLE)) {
+            return;
+        }
+
+        if (sysfs_write(SCHED_LIB_NAME_PATH, "")) {
+            return;
+        }
+    }
+}
+
 static int set_power_profile(void *data)
 {
     int profile = data ? *((int*)data) : 0;
@@ -108,24 +134,37 @@ static int set_power_profile(void *data)
     if (profile == PROFILE_POWER_SAVE) {
         ret = perform_hint_action(DEFAULT_PROFILE_HINT_ID, profile_power_save,
                 ARRAY_SIZE(profile_power_save));
+        if(!ret) {
+                set_sched_lib_optimization(false);
+        }
         profile_name = "powersave";
 
     } else if (profile == PROFILE_HIGH_PERFORMANCE) {
         ret = perform_hint_action(DEFAULT_PROFILE_HINT_ID,
                 profile_high_performance, ARRAY_SIZE(profile_high_performance));
+        if(!ret) {
+                set_sched_lib_optimization(false);
+        }
         profile_name = "performance";
 
     } else if (profile == PROFILE_BIAS_POWER) {
         ret = perform_hint_action(DEFAULT_PROFILE_HINT_ID, profile_bias_power,
                 ARRAY_SIZE(profile_bias_power));
+        if(!ret) {
+                set_sched_lib_optimization(false);
+        }
         profile_name = "bias power";
 
     } else if (profile == PROFILE_BIAS_PERFORMANCE) {
         ret = perform_hint_action(DEFAULT_PROFILE_HINT_ID,
                 profile_bias_performance, ARRAY_SIZE(profile_bias_performance));
+        if(!ret) {
+                set_sched_lib_optimization(false);
+        }
         profile_name = "bias perf";
     } else if (profile == PROFILE_BALANCED) {
         ret = 0;
+        set_sched_lib_optimization(false);
         profile_name = "balanced";
     }
 
